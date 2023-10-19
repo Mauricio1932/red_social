@@ -1,16 +1,16 @@
 class Post {
-  final String id;
-  final String title;
+  final int id;
+  // final String texto;
   final String imagen;
-  final String description;
+  // final String description;
   // final String type;
 
   Post({
     required this.id,
-    required this.title,
+    // required this.texto,
     required this.imagen,
     // required this.price,
-    required this.description,
+    // required this.description,
     // required this.type,
   });
 }

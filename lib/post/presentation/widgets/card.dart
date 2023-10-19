@@ -1,28 +1,52 @@
 import 'dart:async';
 
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:red_social/post/domain/entities/post.dart';
-// import 'package:red_social/post/domain/entities/post.dart';
-// import 'package:red_social/post/domain/entities/post.dart';
-import 'package:timeago/timeago.dart' as timeago;
+import 'package:audioplayers/audioplayers.dart';
+import 'package:lottie/lottie.dart';
+
+import 'package:chewie/chewie.dart';
+import 'package:video_player/video_player.dart';
 
 import '../../domain/usecase/getpost_usecase.dart';
-import 'comentarios.dart';
+import 'media_player.dart';
+// import 'comentarios.dart';
 
 class CardContent extends StatefulWidget {
   // final Post posting;
   // const CardContent({Key? key, required this.posting}) : super(key: key);
   final Post posting;
   // const CardContent( {Key? key, required Post posting}) : super(key: key);
-   const CardContent({Key? key, required this.posting}) : super(key: key);
+  const CardContent({Key? key, required this.posting}) : super(key: key);
 
   @override
   State<CardContent> createState() => CardContentState();
 }
 
 class CardContentState extends State<CardContent> {
+  late VideoPlayerController _controller;
+  late AudioPlayer audioPlayer;
+
   late GetAllPostUseCase getAllPostUseCase;
+
+  String timerText = '';
+  final player = AudioPlayer();
+  bool isPlaying = false;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _controller = VideoPlayerController.network(
+      'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4',
+    )..initialize().then((_) {
+        setState(() {});
+      });
+    audioPlayer = AudioPlayer();
+  }
 
   // @override
   // void initState() {
@@ -32,26 +56,42 @@ class CardContentState extends State<CardContent> {
   //   preload();
   // }
 
-  void preload() async {
-    // print("hello anywhe");
-    // final posts = await getAllPostUseCase.execute();
-    // print("post ${posts.length}");
+  // void preload() async {
+  //   // print("hello anywhe");
+  //   // final posts = await getAllPostUseCase.execute();
+  //   // print("post ${posts.length}");
+  // }
+
+  // void startContinuousExecution() {
+  //   Timer.periodic(const Duration(seconds: 1), (timer) {
+  //     // Aquí pones el código que deseas ejecutar continuamente
+  //     // print("Ejecutando algo cada segundo");
+  //     miFuncion(); // Llama a tu función aquí
+  //   });
+  // }
+
+  // void miFuncion() {
+  //   // Código de la función que deseas ejecutar continuamente
+  //   timer();
+  // }
+
+  bool isImage() {
+    // Verificar si la URL termina con una extensión de imagen común
+    final imageExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.bmp'];
+    return imageExtensions.any(widget.posting.imagen.toLowerCase().endsWith);
   }
 
-  void startContinuousExecution() {
-    Timer.periodic(const Duration(seconds: 1), (timer) {
-      // Aquí pones el código que deseas ejecutar continuamente
-      // print("Ejecutando algo cada segundo");
-      miFuncion(); // Llama a tu función aquí
+  void toggleAudio() {
+    if (isPlaying) {
+      audioPlayer.pause();
+    } else {
+      audioPlayer.play(UrlSource(
+          'http://localhost:3000/api/post/viewPost?imagen=${widget.posting.imagen}'));
+    }
+    setState(() {
+      isPlaying = !isPlaying;
     });
   }
-
-  void miFuncion() {
-    // Código de la función que deseas ejecutar continuamente
-    timer();
-  }
-
-  String timerText = '';
 
   @override
   Widget build(BuildContext context) {
@@ -78,13 +118,41 @@ class CardContentState extends State<CardContent> {
           ],
         ),
         const SizedBox(height: 6),
-        Image.network(
-          // 'https://marketplace.canva.com/EAFUDhAHQMY/2/0/1600w/canva-blue-night-girl-cartoon-desktop-wallpaper-pGxnzsOWyrE.jpg',
-          widget.posting.imagen,
-          fit: BoxFit.fitHeight,
-          height: 300, // Ajusta la altura según sea necesario
-        ),
-        // const SizedBox(height: 2),
+        if (isImage())
+          Image.network(
+            // 'https://marketplace.canva.com/EAFUDhAHQMY/2/0/1600w/canva-blue-night-girl-cartoon-desktop-wallpaper-pGxnzsOWyrE.jpg',
+            'http://localhost:3000/api/post/viewPost?imagen=${widget.posting.imagen}',
+            fit: BoxFit.cover,
+            height: 300, // Ajusta la altura según sea necesario
+          ),
+        if (widget.posting.imagen.toLowerCase().endsWith('.mp3'))
+          Column(
+            children: [
+              GestureDetector(
+                onTap: () {
+                  toggleAudio(); // Reproduce o pausa el audio al tocar la imagen
+                },
+                // child: Lottie.network('https://raw.githubusercontent.com/xvrh/lottie-flutter/master/example/assets/Mobilo/A.json'),
+                child: Lottie.asset(
+                  'assets/sound.json',
+                  // width: 200,
+                  height: 50,
+                  alignment: Alignment.center,
+                  fit: BoxFit.cover,
+                  // color: Colors.red, // Color de la animación
+
+                  // Puedes ajustar más propiedades según tus necesidades
+                ),
+              )
+            ],
+          ),
+        if (widget.posting.imagen.toLowerCase().endsWith('.mp4'))
+            const Column(
+              children: [
+                // MediaPlayer(),
+
+              ],
+            ),
         Row(
           children: [
             // const SizedBox(width: 5),
@@ -196,26 +264,34 @@ class CardContentState extends State<CardContent> {
   }
 
   // final loadedTime = DateTime.now();
-  DateTime loadedTime = DateTime.now();
-  void timer() async {
-    final now = DateTime.now();
-    final difference = now.difference(loadedTime);
-    final elapsedText =
-        timeago.format(now.subtract(difference), locale: 'en_short');
+  // DateTime loadedTime = DateTime.now();
+  // void timer() async {
+  //   final now = DateTime.now();
+  //   final difference = now.difference(loadedTime);
+  //   final elapsedText =
+  //       timeago.format(now.subtract(difference), locale: 'en_short');
 
-    if (difference.inMinutes < 1) {
-      timerText = "Subido ahora";
-    } else {
-      timerText = "Hace $elapsedText";
-    }
-  }
+  //   if (difference.inMinutes < 1) {
+  //     timerText = "Subido ahora";
+  //   } else {
+  //     timerText = "Hace $elapsedText";
+  //   }
+  // }
 
   void comentarios() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => SegundaPantalla(),
-      ),
-    );
+    // Navigator.push(
+    //   context,
+    //   MaterialPageRoute(
+    //     builder: (context) => SegundaPantalla(),
+    //   ),
+    // );
+  }
+
+  @override
+  void dispose() {
+    audioPlayer.dispose();
+    _controller.dispose();
+    // _controller.dispose();
+    super.dispose();
   }
 }

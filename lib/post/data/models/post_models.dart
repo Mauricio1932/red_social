@@ -2,46 +2,41 @@ import '../../domain/entities/post.dart';
 
 class PostModel extends Post {
   PostModel({
-    required String id,
-    required String title,
+    required int id,
+    // required String texto,
     required String imagen,
-    required String description,
-    // required String type,
+    // required String description,
   }) : super(
           id: id,
-          title: title,
+          // // texto: texto,
           imagen: imagen,
-          description: description,
-          // // type: type,
+          // // description: description,
         );
 
   factory PostModel.fromJson(Map<String, dynamic> json) {
     return PostModel(
       id: json['id'],
-      title: json['title'],
+      // // texto: json['texto'],
       imagen: json['imagen'],
-      description: json['description'],
-      // // type: json['type'],
+      // // description: json['description'],
     );
   }
 
   factory PostModel.fromEntity(Post post) {
     return PostModel(
       id: post.id,
-      title: post.title,
+      // // texto: post.texto,
       imagen: post.imagen,
-      description: post.description,
-      // // type: post.type,
+      // // description: post.description,
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
       'id': id,
-      'title': title,
+      // // 'texto': texto,
       'imagen': imagen,
-      'description': description,
-      // // 'type': type,
+      // // 'description': description,
     };
   }
 }

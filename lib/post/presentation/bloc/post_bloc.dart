@@ -21,7 +21,7 @@ class PostBloc extends Bloc<PostEvent, PostState> {
     // print("data 1");
     try {
       emit(state.copyWith(
-        postsStatus: PostRequest.unknown,
+        postsStatus: PostRequest.requestInProgress,
       ));
 
       final response = await getAllPostUseCase.execute();
