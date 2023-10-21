@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:red_social/post/presentation/page/home_page.dart';
+import 'package:red_social/features/post/presentation/page/home_page.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'post/presentation/bloc/post_bloc.dart';
+import 'features/post/presentation/bloc/post_bloc.dart';
 import 'post_usecase_config.dart';
 
 void main() {

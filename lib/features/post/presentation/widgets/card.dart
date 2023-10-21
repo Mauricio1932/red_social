@@ -4,7 +4,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:red_social/post/domain/entities/post.dart';
+import 'package:red_social/features/post/domain/entities/post.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:lottie/lottie.dart';
 
@@ -29,7 +29,7 @@ class CardContent extends StatefulWidget {
 class CardContentState extends State<CardContent> {
   late VideoPlayerController _controller;
   late AudioPlayer audioPlayer;
-
+  late ChewieController _chewieController;
   late GetAllPostUseCase getAllPostUseCase;
 
   String timerText = '';
@@ -40,40 +40,21 @@ class CardContentState extends State<CardContent> {
   void initState() {
     super.initState();
 
-    _controller = VideoPlayerController.network(
-      'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4',
-    )..initialize().then((_) {
+    // this.setVideo();
+    _controller = VideoPlayerController.networkUrl(Uri.parse(
+        'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4'))
+      ..initialize().then((_) {
+        // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
         setState(() {});
       });
+    _chewieController = ChewieController(
+      videoPlayerController: _controller,
+      autoPlay: true,
+      looping: true,
+      // Otras configuraciones según tus necesidades
+    );
     audioPlayer = AudioPlayer();
   }
-
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   // Inicia el bucle infinito al cargar el Widget
-  //   startContinuousExecution();
-  //   preload();
-  // }
-
-  // void preload() async {
-  //   // print("hello anywhe");
-  //   // final posts = await getAllPostUseCase.execute();
-  //   // print("post ${posts.length}");
-  // }
-
-  // void startContinuousExecution() {
-  //   Timer.periodic(const Duration(seconds: 1), (timer) {
-  //     // Aquí pones el código que deseas ejecutar continuamente
-  //     // print("Ejecutando algo cada segundo");
-  //     miFuncion(); // Llama a tu función aquí
-  //   });
-  // }
-
-  // void miFuncion() {
-  //   // Código de la función que deseas ejecutar continuamente
-  //   timer();
-  // }
 
   bool isImage() {
     // Verificar si la URL termina con una extensión de imagen común
@@ -138,7 +119,7 @@ class CardContentState extends State<CardContent> {
                   // width: 200,
                   height: 50,
                   alignment: Alignment.center,
-                  fit: BoxFit.cover,
+                  fit: BoxFit.contain,
                   // color: Colors.red, // Color de la animación
 
                   // Puedes ajustar más propiedades según tus necesidades
@@ -147,12 +128,8 @@ class CardContentState extends State<CardContent> {
             ],
           ),
         if (widget.posting.imagen.toLowerCase().endsWith('.mp4'))
-            const Column(
-              children: [
-                // MediaPlayer(),
-
-              ],
-            ),
+          
+          Chewie(controller: _chewieController),
         Row(
           children: [
             // const SizedBox(width: 5),
@@ -263,34 +240,12 @@ class CardContentState extends State<CardContent> {
     );
   }
 
-  // final loadedTime = DateTime.now();
-  // DateTime loadedTime = DateTime.now();
-  // void timer() async {
-  //   final now = DateTime.now();
-  //   final difference = now.difference(loadedTime);
-  //   final elapsedText =
-  //       timeago.format(now.subtract(difference), locale: 'en_short');
-
-  //   if (difference.inMinutes < 1) {
-  //     timerText = "Subido ahora";
-  //   } else {
-  //     timerText = "Hace $elapsedText";
-  //   }
-  // }
-
-  void comentarios() {
-    // Navigator.push(
-    //   context,
-    //   MaterialPageRoute(
-    //     builder: (context) => SegundaPantalla(),
-    //   ),
-    // );
-  }
+  void comentarios() {}
 
   @override
   void dispose() {
     audioPlayer.dispose();
-    _controller.dispose();
+    _controller?.dispose();
     // _controller.dispose();
     super.dispose();
   }

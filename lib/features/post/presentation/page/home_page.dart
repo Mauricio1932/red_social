@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iconsax/iconsax.dart';
-// import 'package:red_social/post/domain/entities/post.dart';
-import 'package:red_social/post/presentation/widgets/card.dart';
+import 'package:red_social/features/post/presentation/widgets/card.dart';
+import 'package:red_social/features/user/presentation/profile.dart';
 
 import '../bloc/post_bloc.dart';
 import '../bloc/post_event.dart';
 import '../bloc/post_state.dart';
-// import '../widgets/card.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -106,15 +105,15 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  final int _selectedIndex = 0;
-  
+  int _selectedIndex = 0;
+
   Widget _createBottonNavigationBar() {
     return BottomNavigationBar(
       showUnselectedLabels: false,
       backgroundColor: const Color.fromARGB(255, 0, 0, 0),
       type: BottomNavigationBarType.fixed,
       elevation: 0,
-      unselectedItemColor: Color.fromARGB(255, 255, 255, 255),
+      unselectedItemColor: const Color.fromARGB(255, 255, 255, 255),
       selectedIconTheme:
           const IconThemeData(color: Color.fromARGB(255, 255, 255, 255)),
       items: const <BottomNavigationBarItem>[
@@ -131,9 +130,52 @@ class _HomePageState extends State<HomePage> {
           label: 'Profile',
         ),
       ],
-      selectedItemColor:const Color.fromARGB(255, 255, 255, 255),
+      selectedItemColor: const Color.fromARGB(255, 255, 255, 255),
       currentIndex: _selectedIndex,
+      onTap: _onItemTapped,
       // onTap: ,
+    );
+  }
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+
+    switch (index) {
+      case 0:
+        // registros();
+        break;
+      case 1:
+        
+        login();
+        break;
+      case 2:
+        // register();
+        break;
+    }
+  }
+
+  void login() {
+    
+    
+    Navigator.pushReplacement(
+      context,
+      PageRouteBuilder(
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          return SlideTransition(
+            position: Tween(
+              begin:
+                  const Offset(1, 0), // Cambia aquí para iniciar desde arriba
+              end: Offset.zero,
+            ).animate(animation),
+            child: child,
+          );
+        },
+        // ... Otros parámetros de PageRouteBuilder);
+
+        pageBuilder: (_, __, ___) => const Profile(),
+      ),
     );
   }
 }

@@ -1,6 +1,6 @@
-import 'package:red_social/post/data/datasource/post_datasource.dart';
-import 'package:red_social/post/domain/usecase/getpost_usecase.dart';
-import 'post/data/repositories/post_respoitory_impl.dart';
+import 'package:red_social/features/post/data/datasource/post_datasource.dart';
+import 'package:red_social/features/post/domain/usecase/getpost_usecase.dart';
+import 'features/post/data/repositories/post_respoitory_impl.dart';
 
 class UseCasePostsConfig {
   ApiPostDataSourceImpl? apiPostDataSourceImpl;

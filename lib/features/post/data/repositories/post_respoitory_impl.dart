@@ -1,6 +1,6 @@
-import 'package:red_social/post/data/datasource/post_datasource.dart';
-import 'package:red_social/post/domain/entities/post.dart';
-import 'package:red_social/post/domain/repository/post_repository.dart';
+import 'package:red_social/features/post/data/datasource/post_datasource.dart';
+import 'package:red_social/features/post/domain/entities/post.dart';
+import 'package:red_social/features/post/domain/repository/post_repository.dart';
 
 class PostRepositoryImpl implements PostRepository {
   final ApiPostDataSourceImpl apiPostDataSourceImpl;

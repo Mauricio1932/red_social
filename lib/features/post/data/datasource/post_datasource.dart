@@ -1,5 +1,5 @@
 import 'package:http/http.dart' as http;
-import 'package:red_social/post/data/models/post_models.dart';
+import 'package:red_social/features/post/data/models/post_models.dart';
 import 'dart:convert';
 
 import '../../domain/entities/post.dart';

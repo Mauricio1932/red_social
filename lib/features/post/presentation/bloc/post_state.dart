@@ -1,4 +1,4 @@
-import 'package:red_social/post/domain/entities/post.dart';
+import 'package:red_social/features/post/domain/entities/post.dart';
 
 enum PostRequest {
   unknown,

@@ -1,5 +1,5 @@
 import 'package:bloc/bloc.dart';
-import 'package:red_social/post/domain/usecase/getpost_usecase.dart';
+import 'package:red_social/features/post/domain/usecase/getpost_usecase.dart';
 
 import 'post_event.dart';
 import 'post_state.dart';
