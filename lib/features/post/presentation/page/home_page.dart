@@ -1,12 +1,19 @@
+// import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:red_social/features/post/presentation/widgets/card.dart';
-import 'package:red_social/features/user/presentation/profile.dart';
 
+// import '../../../user/pages/login.dart';
+// import '../../../user/presentation/pages/vista_login.dart';
+import '../../../user/presentation/pages/profile.dart';
+import '../../../user/presentation/pages/vista_login.dart';
 import '../bloc/post_bloc.dart';
 import '../bloc/post_event.dart';
 import '../bloc/post_state.dart';
+
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -147,7 +154,6 @@ class _HomePageState extends State<HomePage> {
         // registros();
         break;
       case 1:
-        
         login();
         break;
       case 2:
@@ -156,26 +162,52 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  void login() {
-    
-    
-    Navigator.pushReplacement(
-      context,
-      PageRouteBuilder(
-        transitionsBuilder: (context, animation, secondaryAnimation, child) {
-          return SlideTransition(
-            position: Tween(
-              begin:
-                  const Offset(1, 0), // Cambia aquí para iniciar desde arriba
-              end: Offset.zero,
-            ).animate(animation),
-            child: child,
-          );
-        },
-        // ... Otros parámetros de PageRouteBuilder);
+  late SharedPreferences sharedPreferences;
+  void login() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    // sharedPreferences.setString('users', jsonEncode(token));
+    String token = sharedPreferences.getString('auth_token') ?? "";
 
-        pageBuilder: (_, __, ___) => const Profile(),
-      ),
-    );
+    if (token.isEmpty) {
+      // ignore: use_build_context_synchronously
+      Navigator.pushReplacement(
+        context,
+        PageRouteBuilder(
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return SlideTransition(
+              position: Tween(
+                begin:
+                    const Offset(1, 0), // Cambia aquí para iniciar desde arriba
+                end: Offset.zero,
+              ).animate(animation),
+              child: child,
+            );
+          },
+          // ... Otros parámetros de PageRouteBuilder);
+
+          pageBuilder: (_, __, ___) => const Login(),
+        ),
+      );
+    }else{
+       // ignore: use_build_context_synchronously
+       Navigator.pushReplacement(
+        context,
+        PageRouteBuilder(
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return SlideTransition(
+              position: Tween(
+                begin:
+                    const Offset(1, 0), // Cambia aquí para iniciar desde arriba
+                end: Offset.zero,
+              ).animate(animation),
+              child: child,
+            );
+          },
+          // ... Otros parámetros de PageRouteBuilder);
+
+            pageBuilder: (_, __, ___) => const Profile(),
+        ),
+      );
+    }
   }
 }

@@ -1,4 +1,3 @@
-import 'dart:async';
 
 // ignore_for_file: deprecated_member_use
 
@@ -12,8 +11,6 @@ import 'package:chewie/chewie.dart';
 import 'package:video_player/video_player.dart';
 
 import '../../domain/usecase/getpost_usecase.dart';
-import 'media_player.dart';
-// import 'comentarios.dart';
 
 class CardContent extends StatefulWidget {
   // final Post posting;
@@ -245,7 +242,7 @@ class CardContentState extends State<CardContent> {
   @override
   void dispose() {
     audioPlayer.dispose();
-    _controller?.dispose();
+    _controller.dispose();
     // _controller.dispose();
     super.dispose();
   }

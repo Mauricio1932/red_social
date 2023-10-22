@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:red_social/features/post/presentation/page/home_page.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'features/post/presentation/bloc/post_bloc.dart';
+// import 'features/user/presentation/bloc/bloc/login_bloc.dart';
+import 'features/user/presentation/bloc/bloc_create_user/create_user_bloc.dart';
+import 'features/user/presentation/bloc/bloc_login/user_bloc.dart';
+import 'login_usecase_config.dart';
 import 'post_usecase_config.dart';
 
 void main() {
@@ -9,6 +13,7 @@ void main() {
 }
 
 UseCasePostsConfig useCasePostsConfig = UseCasePostsConfig();
+UseCaseUserConfig useCaseUserConfig = UseCaseUserConfig();
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -17,6 +22,14 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
+        BlocProvider(
+          create: (BuildContext context) => CreateUserBloc(useCaseUserConfig.userCreateUseCase!)
+          //  child: Container(),    
+        ),
+        BlocProvider(
+          create: (BuildContext context) => UserBloc(useCaseUserConfig.loginUserUsecase!, useCaseUserConfig.removeTokenUseCase!,useCaseUserConfig.getAuthTokenUseCase!)
+          //  child: Container(),    
+        ),
         BlocProvider(
           create: (BuildContext context) => PostBloc(useCasePostsConfig.getAllPostUseCase!)
           //  child: Container(),    
