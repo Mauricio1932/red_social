@@ -1,16 +1,16 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 // import 'package:http/http.dart' as http;
 import 'dart:io';
-import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:red_social/features/post/domain/entities/newpost.dart';
 
 import 'package:red_social/features/post/presentation/page/home_page.dart';
 import 'package:red_social/features/user/presentation/bloc/bloc_login/user_event.dart';
-import 'package:red_social/features/user/presentation/pages/vista_login.dart';
 
+import '../../../post/presentation/bloc/newpost_bloc/newpost_bloc.dart';
+import '../../../post/presentation/bloc/post_bloc.dart';
+import '../../../post/presentation/bloc/post_event.dart';
 import '../bloc/bloc_login/user_bloc.dart';
 import '../bloc/bloc_login/user_state.dart';
 
@@ -38,36 +38,12 @@ class _ProfileState extends State<Profile> {
   // final String userUrl = 'https://fakestoreapi.com/users';
 
   void _publish() async {
-    String url =
-        'http://localhost:3000/api/post/createPost?user_id=13248a32-2739-4734-a428-b2dd2b610ef9';
-    String token ="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJsdWlzIiwiaWF0IjoxNjk3OTM2NTY2fQ.vahmIcp3v2LY97LEskVtAYrAnAVO0z4WegibFy3gw10";
-    String fileName = selectedFile!.path.split('/').last;
+    List<NewPost> userData = [
+      NewPost(id: 1, texto: _textFieldController.text , imagen: selectedFile!),
+    ];
 
-    Dio dio = Dio();
-    FormData formData = FormData.fromMap({
-      'texto': _textFieldController.text,
-      'imagen':
-          await MultipartFile.fromFile(selectedFile!.path, filename: fileName),
-    });
-
-    try {
-      Response response = await dio.post(
-        url,
-        options: Options(
-          headers: {'auth-token': token},
-        ),
-        data: formData,
-      );
-
-      if (response.statusCode == 200) {
-        print("Solicitud exitosa: ${response.data}");
-      } else {
-        print(
-            "Error en la solicitud. Código de estado: ${response.statusCode}");
-      }
-    } catch (e) {
-      print("Error al realizar la solicitud: $e");
-    }
+    context.read<NewpostBloc>().add(NewPostRequest(userData[0]));
+    context.read<PostBloc>().add(PostsGetRequest());
   }
 
   @override
@@ -80,6 +56,7 @@ class _ProfileState extends State<Profile> {
               icon: const Icon(Icons.arrow_back_ios),
               color: Colors.white,
               onPressed: () {
+                context.read<PostBloc>().add(PostsGetRequest());
                 Navigator.of(context).pushReplacement(
                   MaterialPageRoute(
                     builder: (BuildContext context) => const HomePage(),
@@ -119,27 +96,27 @@ class _ProfileState extends State<Profile> {
           if (state.userStatus == UserRequest.requestInProgress) {
             return const Center(child: CircularProgressIndicator());
           }
-          // if (state.userStatus == UserRequest.requestFailure) {
-          //   Navigator.pushReplacement(
-          //     context,
-          //     PageRouteBuilder(
-          //       transitionsBuilder:
-          //           (context, animation, secondaryAnimation, child) {
-          //         return SlideTransition(
-          //           position: Tween(
-          //             begin: const Offset(
-          //                 1, 0), // Cambia aquí para iniciar desde arriba
-          //             end: Offset.zero,
-          //           ).animate(animation),
-          //           child: child,
-          //         );
-          //       },
-          //       // ... Otros parámetros de PageRouteBuilder);
+          if (state.userStatus == UserRequest.requestFailure) {
+            // Navigator.pushReplacement(
+            //   context,
+            //   PageRouteBuilder(
+            //     transitionsBuilder:
+            //         (context, animation, secondaryAnimation, child) {
+            //       return SlideTransition(
+            //         position: Tween(
+            //           begin: const Offset(
+            //               1, 0), // Cambia aquí para iniciar desde arriba
+            //           end: Offset.zero,
+            //         ).animate(animation),
+            //         child: child,
+            //       );
+            //     },
+            //     // ... Otros parámetros de PageRouteBuilder);
 
-          //       pageBuilder: (_, __, ___) => const Login(),
-          //     ),
-          //   );
-          // }
+            //     pageBuilder: (_, __, ___) => const Login(),
+            //   ),
+            // );
+          }
           return Center(
             child: Column(
               children: [

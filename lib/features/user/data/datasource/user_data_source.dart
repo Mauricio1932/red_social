@@ -43,10 +43,11 @@ class ApiUserDatasourceImp implements UserDataSource {
     }
 
     if (response.statusCode == 200) {
-      // print("Status 200 OK ${response.data.token}");
+      print("Status 200 OK ${response.data}");
       // print("Status 200 OK ${response.data['data']['token']}");
       final token = response.data['data']['token'];
-      await saveAuthToken(token);
+      final id = response.data['data']['id'];
+      await saveAuthToken(token,id);
 
       return token; // Ahora el tipo de retorno es String
     } else {
@@ -55,12 +56,13 @@ class ApiUserDatasourceImp implements UserDataSource {
     }
   }
 
-  Future<void> saveAuthToken(String token) async {
+  Future<void> saveAuthToken(String token, String id) async {
     final SharedPreferences sharedPreferences =
         await SharedPreferences.getInstance();
 
     // Guardar el token en 'auth_token'
     await sharedPreferences.setString('auth_token', token);
+    await sharedPreferences.setString('id_user', id);
 
     // Puedes imprimir el token para verificar que se haya guardado correctamente
     print("Token guardado: $token");
@@ -72,6 +74,7 @@ class ApiUserDatasourceImp implements UserDataSource {
         await SharedPreferences.getInstance();
 
     await sharedPreferences.remove('auth_token');
+    await sharedPreferences.remove('id_user');
   }
 
   @override
