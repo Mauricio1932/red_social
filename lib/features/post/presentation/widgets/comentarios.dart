@@ -1,49 +1,66 @@
-// import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 
-// class SegundaPantalla extends StatelessWidget {
-//   const SegundaPantalla({super.key});
+class ViewCometarios extends StatefulWidget {
+  const ViewCometarios({super.key});
 
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(title: Text("data"),),
-//       body: Center( // Envuelve la Column en un Center
-//         child: Column(
-//           mainAxisAlignment: MainAxisAlignment.center, // Centra la Column verticalmente
-//           children: [
-//             Expanded(
-//               child: ListView.builder(
-//                 // itemCount: comments.length,
-//                 itemBuilder: (context, index) {
-//                   return ListTile(
-//                     title: Text('ddd,kk'),
-//                   );
-//                 },
-//               ),
-//             ),
-//             Padding(
-//               padding: const EdgeInsets.all(8.0),
-//               child: Row(
-//                 children: [
-//                   Expanded(
-//                     child: TextField(
-//                       // controller: commentController,
-//                       decoration: InputDecoration(hintText: 'Añade un comentario'),
-//                     ),
-//                   ),
-//                   IconButton(
-//                     icon: Icon(Icons.send),
-//                     onPressed: () {
-                     
-                     
-//                     },
-//                   ),
-//                 ],
-//               ),
-//             ),
-//           ],
-//         ),
-//         ),
-//     );
-//   }
-// }
+  @override
+  State<ViewCometarios> createState() => _ViewCometariosState();
+}
+
+class _ViewCometariosState extends State<ViewCometarios> {
+  final TextEditingController _comentarioFieldController =
+      TextEditingController();
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text(
+          "Comentarios",
+          style: TextStyle(color: Colors.white),
+        ),
+        backgroundColor: Colors.black,
+        iconTheme: const IconThemeData(color: Colors.white),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: Column(
+          crossAxisAlignment:
+              CrossAxisAlignment.start, // Alinea los elementos a la izquierda
+          children: [
+            const Expanded(
+              child: Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Text(
+                  'ddd,kk',
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: TextFormField(
+                      style: const TextStyle(color: Colors.white),
+                      controller: _comentarioFieldController,
+                      decoration: const InputDecoration(
+                        labelStyle: TextStyle(color: Colors.white),
+                        hintText: 'Añade un Comentario',
+                        hintStyle: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.send),
+                    onPressed: () {},
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}

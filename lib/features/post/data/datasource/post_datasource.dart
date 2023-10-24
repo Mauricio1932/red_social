@@ -24,7 +24,7 @@ class ApiPostDataSourceImpl implements PostDataSource {
 
     if (response.statusCode == 200) {
       List<dynamic> body = jsonDecode(response.body);
-      // print("body:  $body");
+      print("body:  $body");
       final locals =
           body.map((dynamic item) => PostModel.fromJson(item)).toList();
 

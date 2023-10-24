@@ -11,6 +11,7 @@ import 'package:chewie/chewie.dart';
 import 'package:video_player/video_player.dart';
 
 import '../../domain/usecase/getpost_usecase.dart';
+import 'comentarios.dart';
 
 class CardContent extends StatefulWidget {
   // final Post posting;
@@ -39,14 +40,14 @@ class CardContentState extends State<CardContent> {
 
     // this.setVideo();
     _controller = VideoPlayerController.networkUrl(Uri.parse(
-        'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4'))
+        'http://10.11.3.23:3000/api/post/viewPost?imagen=${widget.posting.imagen}'))
       ..initialize().then((_) {
-        // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
+        // Ensure the first frame is shown ajfter the video is initialized, even before the play button has been pressed.
         setState(() {});
       });
     _chewieController = ChewieController(
       videoPlayerController: _controller,
-      autoPlay: true,
+      autoPlay: false,
       looping: true,
       // Otras configuraciones según tus necesidades
     );
@@ -64,7 +65,7 @@ class CardContentState extends State<CardContent> {
       audioPlayer.pause();
     } else {
       audioPlayer.play(UrlSource(
-          'http://localhost:3000/api/post/viewPost?imagen=${widget.posting.imagen}'));
+          'http://10.11.3.23:3000/api/post/viewPost?imagen=${widget.posting.imagen}'));
     }
     setState(() {
       isPlaying = !isPlaying;
@@ -206,7 +207,7 @@ class CardContentState extends State<CardContent> {
                 // print(timeago.format(fifteenAgo)); // 15 minutes ago
                 SizedBox(width: 10),
                 Text(
-                  'Ver 1 comentario',
+                  'Ver comentarios',
                   style: TextStyle(
                     inherit: true,
                     fontSize: 12.0,
@@ -237,7 +238,28 @@ class CardContentState extends State<CardContent> {
     );
   }
 
-  void comentarios() {}
+  void comentarios() {
+
+     Navigator.push(
+            context,
+            PageRouteBuilder(
+              transitionsBuilder:
+                  (context, animation, secondaryAnimation, child) {
+                return SlideTransition(
+                  position: Tween(
+                    begin: const Offset(
+                        1, 0), // Cambia aquí para iniciar desde arriba
+                    end: Offset.zero,
+                  ).animate(animation),
+                  child: child,
+                );
+              },
+              // ... Otros parámetros de PageRouteBuilder);
+
+              pageBuilder: (_, __, ___) => const ViewCometarios(),
+            ),
+          );
+  }
 
   @override
   void dispose() {
