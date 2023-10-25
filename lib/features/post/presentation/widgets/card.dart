@@ -1,8 +1,9 @@
-
 // ignore_for_file: deprecated_member_use
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:red_social/features/post/domain/entities/comentarios.dart';
 import 'package:red_social/features/post/domain/entities/post.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:lottie/lottie.dart';
@@ -11,6 +12,8 @@ import 'package:chewie/chewie.dart';
 import 'package:video_player/video_player.dart';
 
 import '../../domain/usecase/getpost_usecase.dart';
+import '../bloc/comentario_bloc/comentario_bloc.dart';
+import '../bloc/comentario_bloc/comentario_event.dart';
 import 'comentarios.dart';
 
 class CardContent extends StatefulWidget {
@@ -126,7 +129,6 @@ class CardContentState extends State<CardContent> {
             ],
           ),
         if (widget.posting.imagen.toLowerCase().endsWith('.mp4'))
-          
           Chewie(controller: _chewieController),
         Row(
           children: [
@@ -145,7 +147,7 @@ class CardContentState extends State<CardContent> {
             IconButton(
               icon: const Icon(Iconsax.message4, color: Colors.white, size: 25),
               onPressed: () {
-                comentarios();
+                comentarios(widget.posting.id);
               },
             ),
 
@@ -238,27 +240,29 @@ class CardContentState extends State<CardContent> {
     );
   }
 
-  void comentarios() {
-
-     Navigator.push(
-            context,
-            PageRouteBuilder(
-              transitionsBuilder:
-                  (context, animation, secondaryAnimation, child) {
-                return SlideTransition(
-                  position: Tween(
-                    begin: const Offset(
-                        1, 0), // Cambia aquí para iniciar desde arriba
-                    end: Offset.zero,
-                  ).animate(animation),
-                  child: child,
-                );
-              },
-              // ... Otros parámetros de PageRouteBuilder);
-
-              pageBuilder: (_, __, ___) => const ViewCometarios(),
-            ),
+  void comentarios(int idPost) {
+    List<Comentario> userData = [
+      Comentario(post_id: idPost, name: '', comment: ''),
+    ];
+    context.read<ComentarioBloc>().add(GetCommentRequest(userData[0]));
+    Navigator.push(
+      context,
+      PageRouteBuilder(
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          return SlideTransition(
+            position: Tween(
+              begin:
+                  const Offset(1, 0), // Cambia aquí para iniciar desde arriba
+              end: Offset.zero,
+            ).animate(animation),
+            child: child,
           );
+        },
+        // ... Otros parámetros de PageRouteBuilder);
+
+        pageBuilder: (_, __, ___) => ViewCometarios(idPost),
+      ),
+    );
   }
 
   @override

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:red_social/features/post/presentation/page/home_page.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'comentario_usecase_config.dart';
+import 'features/post/presentation/bloc/comentario_bloc/comentario_bloc.dart';
 import 'features/post/presentation/bloc/newpost_bloc/newpost_bloc.dart';
 import 'features/post/presentation/bloc/post_bloc.dart';
 // import 'features/user/presentation/bloc/bloc/login_bloc.dart';
@@ -17,6 +20,8 @@ void main() {
 UseCasePostsConfig useCasePostsConfig = UseCasePostsConfig();
 UseCaseUserConfig useCaseUserConfig = UseCaseUserConfig();
 UseCaseNewPostsConfig newPostsConfig= UseCaseNewPostsConfig();
+UseCaseComentarioConfig useCaseComentariConfig = UseCaseComentarioConfig();
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -24,6 +29,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
+        BlocProvider(
+          create: (BuildContext context) => ComentarioBloc(useCaseComentariConfig.getComentariosUseCase!)
+          //  child: Container(),    
+        ),
         BlocProvider(
           create: (BuildContext context) => NewpostBloc(newPostsConfig.postNewUseCase!)
           //  child: Container(),    

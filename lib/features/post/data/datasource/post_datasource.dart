@@ -1,7 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:http/http.dart' as http;
+import 'package:red_social/features/post/data/models/comentario_model.dart';
 import 'package:red_social/features/post/data/models/new_post_model.dart';
 import 'package:red_social/features/post/data/models/post_models.dart';
+import 'package:red_social/features/post/domain/entities/comentarios.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 
@@ -11,20 +13,20 @@ import '../../domain/entities/post.dart';
 abstract class PostDataSource {
   Future<List<Post>> getAllPost();
   Future<List<NewPost>> postNew(newPost);
+  Future<List<Comentario>> getComentarios(idPost);
 }
 
 class ApiPostDataSourceImpl implements PostDataSource {
-  // final urlGetPost = "https://fakestoreapi.com/products/";
   final urlGetPost = "http://localhost:3000/api/post/viewAll";
+  final urlGetComentarios = "http://localhost:3000/api/comment/view?post_id=";
   final postNewUrl = "http://localhost:3000/api/post/createPost?user_id=";
-  // final urlNewPost ='http://localhost:3000/api/post/createPost?user_id=';
+
   @override
   Future<List<Post>> getAllPost() async {
     final response = await http.get(Uri.parse(urlGetPost));
 
     if (response.statusCode == 200) {
       List<dynamic> body = jsonDecode(response.body);
-      print("body:  $body");
       final locals =
           body.map((dynamic item) => PostModel.fromJson(item)).toList();
 
@@ -37,14 +39,12 @@ class ApiPostDataSourceImpl implements PostDataSource {
   @override
   Future<List<NewPost>> postNew(newPost) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    
-    final id_users = sharedPreferences.getString('id_user') ?? '';
 
-    print("${id_users}");
-    print("${postNewUrl}");
+    final idUsers = sharedPreferences.getString('id_user') ?? '';
+
     Dio dio = Dio();
     // Reemplaza 'path_to_your_image' con la ruta real de tu imagen
-    print("${newPost.imagen}");
+
     String fileName = newPost.imagen!.path.split('/').last;
     FormData formData = FormData.fromMap({
       'texto': newPost.texto,
@@ -56,7 +56,7 @@ class ApiPostDataSourceImpl implements PostDataSource {
     String token = sharedPreferences.getString('auth_token') ?? "";
     try {
       Response response = await dio.post(
-        '$postNewUrl$id_users',
+        '$postNewUrl$idUsers',
         options: Options(
           headers: {
             'auth-token': token,
@@ -70,16 +70,27 @@ class ApiPostDataSourceImpl implements PostDataSource {
         List<NewPost> newPosts = response.data
             .map<NewPost>((post) => NewPostModel.fromJson(post))
             .toList();
-        print("Solicitud exitosa: $newPosts");
         return newPosts;
       } else {
-        print(
-            "Error en la solicitud. Código de estado: ${response.statusCode}");
         throw Exception('Failed to upload image');
       }
     } catch (e) {
-      print("Error al realizar la solicitud: $e");
       throw Exception('Failed to upload image');
+    }
+  }
+
+  @override
+  Future<List<Comentario>> getComentarios(idPost) async {
+    final response = await http.get(Uri.parse('$urlGetComentarios${idPost.post_id}'));
+
+    if (response.statusCode == 200) {
+      List<dynamic> body = jsonDecode(response.body);
+      final comentarios =
+          body.map((dynamic item) => ComentarioModel.fromJson(item)).toList();
+
+      return comentarios;
+    } else {
+      throw Exception('Failed to load locals');
     }
   }
 }
