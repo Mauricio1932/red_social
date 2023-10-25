@@ -3,6 +3,7 @@ import 'package:red_social/features/post/presentation/page/home_page.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'comentario_usecase_config.dart';
+import 'features/post/presentation/bloc/aadcomment_bloc/addcomment_bloc.dart';
 import 'features/post/presentation/bloc/comentario_bloc/comentario_bloc.dart';
 import 'features/post/presentation/bloc/newpost_bloc/newpost_bloc.dart';
 import 'features/post/presentation/bloc/post_bloc.dart';
@@ -29,6 +30,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
+        BlocProvider(
+          create: (BuildContext context) => AddcommentBloc(useCaseComentariConfig.newComentarioUseCase!)
+          //  child: Container(),    
+        ),
         BlocProvider(
           create: (BuildContext context) => ComentarioBloc(useCaseComentariConfig.getComentariosUseCase!)
           //  child: Container(),    

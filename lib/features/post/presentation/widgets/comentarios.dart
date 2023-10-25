@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:red_social/features/post/presentation/bloc/comentario_bloc/comentario_state.dart';
 
 import '../../domain/entities/comentarios.dart';
+import '../bloc/aadcomment_bloc/addcomment_bloc.dart';
+import '../bloc/aadcomment_bloc/addcomment_event.dart';
 import '../bloc/comentario_bloc/comentario_bloc.dart';
 import '../bloc/comentario_bloc/comentario_event.dart';
 
@@ -131,7 +133,18 @@ class _ViewCometariosState extends State<ViewCometarios> {
 
   void comentar() {
     if (_formKey.currentState?.validate() ?? false) {
-      final String comentario = _comentarioFieldController.text;
+      print("se ejecuto");
+      comentario();
     }
+  }
+
+  void comentario() {
+      print("se ejecuto");
+      
+      List<Comentario> userData = [
+        Comentario(post_id: widget.idPost, name: '', comment: _comentarioFieldController.text),
+      ];
+      context.read<AddcommentBloc>().add(NewCommenPost(userData[0]));
+    
   }
 }

@@ -7,4 +7,5 @@ abstract class PostRepository{
   Future<List<Post>> getAllPost();
   Future<List<NewPost>> postNew(newPost);
   Future<List<Comentario>> getComentarios(id);
+  Future<List<Comentario>> newComentario(id);
 }

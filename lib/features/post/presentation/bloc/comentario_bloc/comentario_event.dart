@@ -4,7 +4,8 @@ abstract class ComentarioEvent {
   const ComentarioEvent();
 }
 
-class GetCommentRequest extends ComentarioEvent{
+class GetCommentRequest extends ComentarioEvent {
   const GetCommentRequest(this.idPost);
   final Comentario idPost;
 }
+

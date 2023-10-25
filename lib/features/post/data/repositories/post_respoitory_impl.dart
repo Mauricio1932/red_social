@@ -15,7 +15,6 @@ class PostRepositoryImpl implements PostRepository {
     return await apiPostDataSourceImpl.getAllPost();
   }
 
-  
   @override
   Future<List<NewPost>> postNew(newPost) async {
     return await apiPostDataSourceImpl.postNew(newPost);
@@ -24,5 +23,10 @@ class PostRepositoryImpl implements PostRepository {
   @override
   Future<List<Comentario>> getComentarios(idPost) async {
     return await apiPostDataSourceImpl.getComentarios(idPost);
+  }
+
+  @override
+  Future<List<Comentario>> newComentario(idPost) async {
+    return await apiPostDataSourceImpl.newComentario(idPost);
   }
 }

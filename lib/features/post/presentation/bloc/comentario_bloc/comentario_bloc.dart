@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:red_social/features/post/domain/usecase/newcomentario_usecase.dart';
 
 import '../../../domain/usecase/get_comentarios_usecase.dart';
 import 'comentario_event.dart';
@@ -6,8 +7,7 @@ import 'comentario_state.dart';
 
 class ComentarioBloc extends Bloc<ComentarioEvent, ComentarioState> {
   final GetComentariosUseCase getComentariosUseCase;
-
-  ComentarioBloc(this.getComentariosUseCase) : super(const ComentarioState()) {
+  ComentarioBloc(this.getComentariosUseCase)  : super(const ComentarioState()) {
     on<GetCommentRequest>(_handleGetComentarios);
   }
 
@@ -34,4 +34,6 @@ class ComentarioBloc extends Bloc<ComentarioEvent, ComentarioState> {
       ));
     }
   }
+
+
 }
