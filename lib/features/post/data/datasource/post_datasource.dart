@@ -19,7 +19,7 @@ abstract class PostDataSource {
 
 class ApiPostDataSourceImpl implements PostDataSource {
   Dio dio = Dio();
-
+  String ip = '';
   final urlGetPost = "http://localhost:3000/api/post/viewAll";
   final urlGetComentarios = "http://localhost:3000/api/comment/view?post_id=";
   final postNewUrl = "http://localhost:3000/api/post/createPost?user_id=";

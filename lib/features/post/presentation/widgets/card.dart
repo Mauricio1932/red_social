@@ -43,7 +43,7 @@ class CardContentState extends State<CardContent> {
 
     // this.setVideo();
     _controller = VideoPlayerController.networkUrl(Uri.parse(
-        'http://10.11.3.23:3000/api/post/viewPost?imagen=${widget.posting.imagen}'))
+        'http://localhost:3000/api/post/viewPost?imagen=${widget.posting.imagen}'))
       ..initialize().then((_) {
         // Ensure the first frame is shown ajfter the video is initialized, even before the play button has been pressed.
         setState(() {});
@@ -68,7 +68,7 @@ class CardContentState extends State<CardContent> {
       audioPlayer.pause();
     } else {
       audioPlayer.play(UrlSource(
-          'http://10.11.3.23:3000/api/post/viewPost?imagen=${widget.posting.imagen}'));
+          'http://localhost:3000/api/post/viewPost?imagen=${widget.posting.imagen}'));
     }
     setState(() {
       isPlaying = !isPlaying;
