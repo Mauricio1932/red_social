@@ -6,8 +6,8 @@ import 'comentario_usecase_config.dart';
 import 'features/post/presentation/bloc/aadcomment_bloc/addcomment_bloc.dart';
 import 'features/post/presentation/bloc/comentario_bloc/comentario_bloc.dart';
 import 'features/post/presentation/bloc/newpost_bloc/newpost_bloc.dart';
-import 'features/post/presentation/bloc/post_bloc.dart';
 // import 'features/user/presentation/bloc/bloc/login_bloc.dart';
+import 'features/post/presentation/bloc/post_bloc/post_bloc.dart';
 import 'features/user/presentation/bloc/bloc_create_user/create_user_bloc.dart';
 import 'features/user/presentation/bloc/bloc_login/user_bloc.dart';
 import 'login_usecase_config.dart';
@@ -59,8 +59,8 @@ class MyApp extends StatelessWidget {
         title: 'Flutter Demo',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-          scaffoldBackgroundColor: const Color.fromARGB(0, 0, 0, 0),
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          // scaffoldBackgroundColor: Color.fromARGB(0, 255, 255, 255),
+          colorScheme: ColorScheme.fromSeed(seedColor: Color.fromARGB(255, 255, 255, 255)),
           useMaterial3: true,
         ),
         home: const MyHomePage(title: 'Flutter Demo Home Page'),

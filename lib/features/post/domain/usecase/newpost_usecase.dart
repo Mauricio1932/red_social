@@ -14,7 +14,7 @@ class PostNewUseCase {
       // ignore: unnecessary_null_comparison
       if (posts != null) {
         // ignore: avoid_print
-        print("$posts");
+        print("Se publico el post");
         return posts;
       } else {
         throw Exception('No se pudo obtener los posts');

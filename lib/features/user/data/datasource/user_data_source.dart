@@ -19,8 +19,8 @@ abstract class UserDataSource {
 }
 
 class ApiUserDatasourceImp implements UserDataSource {
-  final String apiUrl = 'http://localhost:3000/api/user/login';
-  final String createUser = 'http://localhost:3000/api/user/createUser';
+  final String apiUrl = 'http://192.168.1.67:3000/api/user/login';
+  final String createUser = 'http://192.168.1.67:3000/api/user/createUser';
 
   final Dio dio = Dio();
   late SharedPreferences sharedPreferences;

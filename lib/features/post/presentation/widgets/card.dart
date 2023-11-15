@@ -43,7 +43,7 @@ class CardContentState extends State<CardContent> {
 
     // this.setVideo();
     _controller = VideoPlayerController.networkUrl(Uri.parse(
-        'http://localhost:3000/api/post/viewPost?imagen=${widget.posting.imagen}'))
+        'http://10.13.3.19:3000/api/post/viewPost?imagen=${widget.posting.imagen}'))
       ..initialize().then((_) {
         // Ensure the first frame is shown ajfter the video is initialized, even before the play button has been pressed.
         setState(() {});
@@ -68,7 +68,7 @@ class CardContentState extends State<CardContent> {
       audioPlayer.pause();
     } else {
       audioPlayer.play(UrlSource(
-          'http://localhost:3000/api/post/viewPost?imagen=${widget.posting.imagen}'));
+          'http://10.13.3.19:3000/api/post/viewPost?imagen=${widget.posting.imagen}'));
     }
     setState(() {
       isPlaying = !isPlaying;
@@ -77,166 +77,90 @@ class CardContentState extends State<CardContent> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        const Row(
-          children: [
-            SizedBox(width: 5),
-            CircleAvatar(
-              radius: 20,
-              backgroundImage: AssetImage('assets/images.jpeg'),
-            ),
-            SizedBox(width: 8),
-            Text(
-              'Alejandro',
-              style:
-                  TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
-            ),
-            Spacer(),
-            Icon(Icons.more_vert, color: Colors.white),
-            SizedBox(
-              width: 10,
-            )
-          ],
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Container(
+        decoration: BoxDecoration(
+          border: Border.all(
+            color: const Color.fromARGB(255, 0, 0, 0), // Color del borde
+            width: 2.0, // Ancho del borde
+          ),
+          borderRadius: const BorderRadius.all(
+              Radius.circular(10.0)), // Radio de borde (opcional)
         ),
-        const SizedBox(height: 6),
-        if (isImage())
-          Image.network(
-            // 'https://marketplace.canva.com/EAFUDhAHQMY/2/0/1600w/canva-blue-night-girl-cartoon-desktop-wallpaper-pGxnzsOWyrE.jpg',
-            'http://localhost:3000/api/post/viewPost?imagen=${widget.posting.imagen}',
-            fit: BoxFit.cover,
-            height: 300, // Ajusta la altura según sea necesario
-          ),
-        if (widget.posting.imagen.toLowerCase().endsWith('.mp3'))
-          Column(
-            children: [
-              GestureDetector(
-                onTap: () {
-                  toggleAudio(); // Reproduce o pausa el audio al tocar la imagen
-                },
-                // child: Lottie.network('https://raw.githubusercontent.com/xvrh/lottie-flutter/master/example/assets/Mobilo/A.json'),
-                child: Lottie.asset(
-                  'assets/sound.json',
-                  // width: 200,
-                  height: 50,
-                  alignment: Alignment.center,
-                  fit: BoxFit.contain,
-                  // color: Colors.red, // Color de la animación
-
-                  // Puedes ajustar más propiedades según tus necesidades
-                ),
-              )
-            ],
-          ),
-        if (widget.posting.imagen.toLowerCase().endsWith('.mp4'))
-          Chewie(controller: _chewieController),
-        Row(
+        child: Column(
           children: [
-            // const SizedBox(width: 5),
-            IconButton(
-              icon: const Icon(
-                Icons.favorite_outline,
-                color: Colors.white,
-                size: 25,
+            const SizedBox(height: 10),
+            if (isImage())
+              Image.network(
+                // 'https://marketplace.canva.com/EAFUDhAHQMY/2/0/1600w/canva-blue-night-girl-cartoon-desktop-wallpaper-pGxnzsOWyrE.jpg',
+                'http://10.13.3.19:3000/api/post/viewPost?imagen=${widget.posting.imagen}',
+                fit: BoxFit.cover,
+                height: 300, // Ajusta la altura según sea necesario
               ),
-              onPressed: () {
-                // Acción al presionar el icono de usuario
-              },
-            ),
+            if (widget.posting.imagen.toLowerCase().endsWith('.mp3'))
+              Column(
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      toggleAudio(); // Reproduce o pausa el audio al tocar la imagen
+                    },
+                    // child: Lottie.network('https://raw.githubusercontent.com/xvrh/lottie-flutter/master/example/assets/Mobilo/A.json'),
+                    child: Lottie.asset(
+                      'assets/sound.json',
+                      // width: 200,
+                      height: 50,
+                      alignment: Alignment.center,
+                      fit: BoxFit.contain,
+                      // color: Colors.red, // Color de la animación
 
-            IconButton(
-              icon: const Icon(Iconsax.message4, color: Colors.white, size: 25),
-              onPressed: () {
-                comentarios(widget.posting.id);
-              },
-            ),
-
-            const Spacer(),
-            const Icon(Iconsax.save_24, color: Colors.white),
-            const SizedBox(
-              width: 10,
+                      // Puedes ajustar más propiedades según tus necesidades
+                    ),
+                  )
+                ],
+              ),
+            if (widget.posting.imagen.toLowerCase().endsWith('.mp4'))
+              Chewie(controller: _chewieController),
+            Center(
+                child: Center(
+              child: GestureDetector(
+                onTap: () {
+                  comentarios(widget.posting.id);
+                },
+                child: Row(
+                  children: [
+                    const Icon(Iconsax.message4, color: Colors.white, size: 25),
+                    const SizedBox(width: 5),
+                    const Text(
+                      'Comentarios',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ],
+                ),
+              ),
+            )),
+            Column(
+              children: [
+                // const SizedBox(height: 2),
+                Row(
+                  children: [
+                    // print(timeago.format(fifteenAgo)); // 15 minutes ago
+                    const SizedBox(width: 10),
+                    Text(
+                      timerText,
+                      style: const TextStyle(
+                        inherit: true,
+                        fontSize: 10.0,
+                        color: Color.fromARGB(255, 255, 255, 255),
+                      ),
+                    )
+                  ],
+                ),
+              ],
             )
           ],
         ),
-        Column(
-          children: [
-            const Row(
-              children: [
-                SizedBox(width: 10),
-                Align(
-                  alignment:
-                      Alignment.centerLeft, // Alinea el contenido a la derecha
-                  child: Text(
-                    "120 Me gusta",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            const Row(
-              children: [
-                SizedBox(width: 10),
-                Align(
-                  alignment:
-                      Alignment.centerLeft, // Alinea el contenido a la derecha
-                  child: Row(
-                    children: [
-                      Text(
-                        "alejandro.mauricio ",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Text(
-                        "Be happy!",
-                        style: TextStyle(
-                          color: Colors.white,
-                          // fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-            // const SizedBox(height: 3),
-            const Row(
-              children: [
-                // print(timeago.format(fifteenAgo)); // 15 minutes ago
-                SizedBox(width: 10),
-                Text(
-                  'Ver comentarios',
-                  style: TextStyle(
-                    inherit: true,
-                    fontSize: 12.0,
-                    color: Color.fromARGB(255, 255, 255, 255),
-                    fontWeight: FontWeight.bold,
-                  ),
-                )
-              ],
-            ),
-            // const SizedBox(height: 2),
-            Row(
-              children: [
-                // print(timeago.format(fifteenAgo)); // 15 minutes ago
-                const SizedBox(width: 10),
-                Text(
-                  timerText,
-                  style: const TextStyle(
-                    inherit: true,
-                    fontSize: 10.0,
-                    color: Color.fromARGB(255, 255, 255, 255),
-                  ),
-                )
-              ],
-            ),
-          ],
-        )
-      ],
+      ),
     );
   }
 

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:red_social/features/user/presentation/pages/vista_login.dart';
 
+import '../../../post/presentation/page/home_page.dart';
 import '../../domain/entities/user.dart';
 import '../bloc/bloc_create_user/create_user_bloc.dart';
 import '../bloc/bloc_create_user/create_user_event.dart';
@@ -25,20 +26,13 @@ class _RegisterViewState extends State<RegisterView> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   // bool _acceptTerms = false;
 
+
   void _regresar() {
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(
-        builder: (BuildContext context) => const Login(),
+        builder: (BuildContext context) => const HomePage(),
       ),
     );
-  }
-
-  void profile() {
-    // Navigator.of(context).pushReplacement(
-    //   MaterialPageRoute(
-    //     builder: (BuildContext context) => const LoginView(),
-    //   ),
-    // );
   }
 
   void enviarFormulario() {
@@ -61,7 +55,19 @@ class _RegisterViewState extends State<RegisterView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(title: Text("jo"),),
+      appBar: AppBar(
+        backgroundColor: const Color.fromARGB(255, 110, 105, 105),
+        // backgroundColor: Colors.black,
+        title: Row(
+          children: [
+            IconButton(
+              onPressed: _regresar,
+              icon: const Icon(Icons.arrow_back),
+              color: const Color.fromARGB(255, 0, 0, 0),
+            ),
+          ],
+        ),
+      ),
       body: Stack(
         children: [
           SingleChildScrollView(
@@ -85,120 +91,93 @@ class _RegisterViewState extends State<RegisterView> {
                         ),
                       ],
                     ),
-                    Image.asset(
-                      "assets/ave.png",
-                      width: 250,
-                      fit: BoxFit.cover,
-                    ),
+
                     const SizedBox(height: 10),
                     Expanded(
-                      child: FadeInUp(
-                        delay: const Duration(seconds: 1),
+                      child: SingleChildScrollView(
                         child: Container(
-                          decoration: const BoxDecoration(
-                              color: Color(0xFFF5EDED),
-                              borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(40),
-                                topRight: Radius.circular(40),
-                              )),
-                          child: SingleChildScrollView(
-                            child: Container(
-                              margin: const EdgeInsets.all(20.0),
-                              child: Form(
-                                key: _formKey,
-                                child: Column(
-                                  children: <Widget>[
-                                    const SizedBox(height: 10),
-                                    const Text(
-                                      "Registra una cuenta",
-                                      style: TextStyle(
-                                        letterSpacing: 0.4,
-                                        fontSize: 18,
-                                        fontFamily: 'Montserrat',
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
-                                    const SizedBox(height: 30),
-                                    TextFormField(
-                                      controller: _nombreUsuarioController,
-                                      decoration: const InputDecoration(
-                                        hintText: 'userName',
-                                        labelText: 'userName',
-                                        prefixIcon: Icon(
-                                          Icons.person,
-                                          color: Colors.black,
-                                        ),
-                                      ),
-                                      validator: (value) {
-                                        if (value == null || value.isEmpty) {
-                                          return 'Por favor, ingresa un Username';
-                                        }
-                                        return null;
-                                      },
-                                    ),
-                                    const SizedBox(height: 10),
-                                    TextFormField(
-                                      controller: _lastnameController,
-                                      decoration: const InputDecoration(
-                                        hintText: 'Last Name',
-                                        labelText: 'Last Name',
-                                        prefixIcon: Icon(
-                                          Icons.person,
-                                          color: Colors.black,
-                                        ),
-                                      ),
-                                      validator: (value) {
-                                        if (value == null || value.isEmpty) {
-                                          return 'Por favor, ingresa tu name';
-                                        }
-                                        return null;
-                                      },
-                                    ),
-                                    const SizedBox(height: 10),
-                                    TextFormField(
-                                      controller: _correoElectronicoController,
-                                      decoration: const InputDecoration(
-                                        hintText: 'E-mail',
-                                        labelText: 'E-mail',
-                                        prefixIcon: Icon(
-                                          Icons.person,
-                                          color: Colors.black,
-                                        ),
-                                      ),
-                                      validator: (value) {
-                                        if (value == null || value.isEmpty) {
-                                          return 'Por favor, ingresa tu e-mail';
-                                        }
-                                        return null;
-                                      },
-                                    ),
-                                    const SizedBox(height: 10),
-                                    TextFormField(
-                                      controller: _contrasenaController,
-                                      decoration: const InputDecoration(
-                                        hintText: 'Password',
-                                        labelText: 'Password',
-                                        prefixIcon: Icon(
-                                          Icons.lock,
-                                          color: Colors.black,
-                                        ),
-                                      ),
-                                      validator: (value) {
-                                        if (value == null || value.isEmpty) {
-                                          return 'Por favor, ingresa un password';
-                                        }
-                                        return null;
-                                      },
-                                      obscureText: true,
-                                    ),
-                                    const SizedBox(height: 20),
-                                    boton(),
-                                    const SizedBox(height: 20),
-                                    login()
-                                  ],
+                          margin: const EdgeInsets.all(20.0),
+                          child: Form(
+                            key: _formKey,
+                            child: Column(
+                              children: <Widget>[
+                                const SizedBox(height: 10),
+                                const Text(
+                                  "Registra una cuenta",
+                                  style: TextStyle(
+                                    letterSpacing: 0.4,
+                                    fontSize: 18,
+                                    fontFamily: 'Montserrat',
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w600,
+                                  ),
                                 ),
-                              ),
+                                const SizedBox(height: 30),
+                                TextFormField(
+                                  controller: _nombreUsuarioController,
+                                  decoration: const InputDecoration(
+                                    hintText: 'userName',
+                                    labelText: 'userName',
+                                    
+                                  ),
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'Por favor, ingresa un Username';
+                                    }
+                                    return null;
+                                  },
+                                ),
+                                const SizedBox(height: 10),
+                                TextFormField(
+                                  controller: _lastnameController,
+                                  decoration: const InputDecoration(
+                                    hintText: 'Last Name',
+                                    labelText: 'Last Name',
+                                    
+                                  ),
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'Por favor, ingresa tu name';
+                                    }
+                                    return null;
+                                  },
+                                ),
+                                const SizedBox(height: 10),
+                                TextFormField(
+                                  controller: _correoElectronicoController,
+                                  decoration: const InputDecoration(
+                                    hintText: 'E-mail',
+                                    labelText: 'E-mail',
+                                    
+                                  ),
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'Por favor, ingresa tu e-mail';
+                                    }
+                                    return null;
+                                  },
+                                ),
+                                const SizedBox(height: 10),
+                                TextFormField(
+                                  controller: _contrasenaController,
+                                  decoration: const InputDecoration(
+                                    hintText: 'Password',
+                                    labelText: 'Password',
+                                    
+                                  ),
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'Por favor, ingresa un password';
+                                    }
+                                    return null;
+                                  },
+                                  obscureText: true,
+                                ),
+                                const SizedBox(height: 20),
+                                boton(),
+                                const SizedBox(height: 20),
+                                login()
+                              ],
                             ),
                           ),
                         ),
@@ -217,12 +196,16 @@ class _RegisterViewState extends State<RegisterView> {
   Widget boton() => ElevatedButton(
         onPressed: () {
           if (_formKey.currentState?.validate() ?? false) {
-          
             enviarFormulario();
-            
           }
         },
         style: ButtonStyle(
+          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(
+                  1.0), // Ajusta el radio según sea necesario
+            ),
+          ),
           minimumSize: MaterialStateProperty.all(const Size(9900, 50)),
           backgroundColor: MaterialStateProperty.all<Color>(Colors.black),
           textStyle: MaterialStateProperty.all<TextStyle>(
@@ -232,8 +215,8 @@ class _RegisterViewState extends State<RegisterView> {
         ),
         child: const Text('Create Account'),
       );
-    
-    Widget login() => OutlinedButton(
+
+  Widget login() => OutlinedButton(
         onPressed: () {
           Navigator.pushReplacement(
             context,
@@ -256,6 +239,12 @@ class _RegisterViewState extends State<RegisterView> {
           );
         },
         style: OutlinedButton.styleFrom(foregroundColor: Colors.black).copyWith(
+          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(
+                  1.0), // Ajusta el radio según sea necesario
+            ),
+          ),
           side: MaterialStateProperty.all(const BorderSide(
             color: Colors.grey, // color del borde
             width: 1.0, // ancho del borde

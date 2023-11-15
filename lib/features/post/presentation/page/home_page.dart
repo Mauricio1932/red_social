@@ -9,11 +9,12 @@ import 'package:red_social/features/post/presentation/widgets/card.dart';
 // import '../../../user/presentation/pages/vista_login.dart';
 import '../../../user/presentation/pages/profile.dart';
 import '../../../user/presentation/pages/vista_login.dart';
-import '../bloc/post_bloc.dart';
-import '../bloc/post_event.dart';
-import '../bloc/post_state.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../bloc/post_bloc/post_bloc.dart';
+import '../bloc/post_bloc/post_event.dart';
+import '../bloc/post_bloc/post_state.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -27,42 +28,21 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 0, 0, 0),
+        backgroundColor: const Color.fromARGB(255, 110, 105, 105),
         elevation: 0,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
+        title: const Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset(
-              'assets/ave.png',
-              fit: BoxFit.cover,
-              height: 40,
-              // color: Colors.amber,
-            ),
-            const SizedBox(width: 1),
-            const Text(
-              "Send",
+            SizedBox(width: 1),
+            Text(
+              "Social Network",
               style: TextStyle(
                 color: Colors.white,
                 fontStyle: FontStyle.italic,
               ),
+              textAlign: TextAlign.center,
             ),
           ],
-        ),
-        actions: [
-          IconButton(
-            icon: const Icon(Iconsax.user, color: Colors.white),
-            onPressed: () {},
-          ),
-          const SizedBox(
-            width: 5,
-          ),
-        ],
-        bottom: const PreferredSize(
-          preferredSize: Size.fromHeight(1.0), // Altura de la línea blanca
-          child: Divider(
-            color:
-                Color.fromARGB(99, 255, 255, 255), // Color de la línea blanca
-          ),
         ),
       ),
       body: BlocBuilder<PostBloc, PostState>(
@@ -73,9 +53,12 @@ class _HomePageState extends State<HomePage> {
           if (state.postsStatus == PostRequest.requestFailure) {
             return Center(
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+        
                 children: [
-                  const Text('Problem loading products'),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  const Text('There was a problem loading posts'),
                   const SizedBox(
                     height: 10,
                   ),
@@ -83,7 +66,7 @@ class _HomePageState extends State<HomePage> {
                       onPressed: () {
                         context.read<PostBloc>().add(PostsGetRequest());
                       },
-                      child: const Text('Try again'))
+                      child: const Text('Load again'))
                 ],
               ),
             );
@@ -101,6 +84,7 @@ class _HomePageState extends State<HomePage> {
 
                 return Column(
                   children: <Widget>[
+                    const SizedBox(height: 20),
                     CardContent(posting: posting),
                     // CardContent(),
                   ],
@@ -117,7 +101,8 @@ class _HomePageState extends State<HomePage> {
   Widget _createBottonNavigationBar() {
     return BottomNavigationBar(
       showUnselectedLabels: false,
-      backgroundColor: const Color.fromARGB(255, 0, 0, 0),
+      backgroundColor: const Color.fromARGB(255, 110, 105, 105),
+
       type: BottomNavigationBarType.fixed,
       elevation: 0,
       unselectedItemColor: const Color.fromARGB(255, 255, 255, 255),
@@ -125,15 +110,15 @@ class _HomePageState extends State<HomePage> {
           const IconThemeData(color: Color.fromARGB(255, 255, 255, 255)),
       items: const <BottomNavigationBarItem>[
         BottomNavigationBarItem(
-          icon: Icon(Iconsax.home),
-          label: '',
+          icon: Icon(Icons.home),
+          label: 'home',
         ),
         // BottomNavigationBarItem(
         //   icon: Icon(Iconsax.),
         //   label: 'Search',
         // ),
         BottomNavigationBarItem(
-          icon: Icon(Iconsax.user),
+          icon: Icon(Icons.person),
           label: 'Profile',
         ),
       ],
@@ -188,9 +173,9 @@ class _HomePageState extends State<HomePage> {
           pageBuilder: (_, __, ___) => const Login(),
         ),
       );
-    }else{
-       // ignore: use_build_context_synchronously
-       Navigator.pushReplacement(
+    } else {
+      // ignore: use_build_context_synchronously
+      Navigator.pushReplacement(
         context,
         PageRouteBuilder(
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
@@ -205,7 +190,7 @@ class _HomePageState extends State<HomePage> {
           },
           // ... Otros parámetros de PageRouteBuilder);
 
-            pageBuilder: (_, __, ___) => const Profile(),
+          pageBuilder: (_, __, ___) => const Profile(),
         ),
       );
     }

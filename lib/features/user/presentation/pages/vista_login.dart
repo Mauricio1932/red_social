@@ -42,19 +42,20 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 0, 0, 0),
-      // appBar: AppBar(
-      //   backgroundColor: Colors.black,
-      //   title: Row(
-      //     children: [
-      //       IconButton(
-      //         onPressed: _regresar,
-      //         icon: const Icon(Icons.arrow_back_ios),
-      //         color: Colors.white,
-      //       ),
-      //     ],
-      //   ),
-      // ),
+      backgroundColor: Color.fromARGB(255, 243, 243, 243),
+      appBar: AppBar(
+        backgroundColor: const Color.fromARGB(255, 110, 105, 105),
+        // backgroundColor: Colors.black,
+        title: Row(
+          children: [
+            IconButton(
+              onPressed: _regresar,
+              icon: const Icon(Icons.arrow_back),
+              color: Color.fromARGB(255, 0, 0, 0),
+            ),
+          ],
+        ),
+      ),
       body: Stack(
         children: [
           SingleChildScrollView(
@@ -66,96 +67,64 @@ class _LoginState extends State<Login> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     // const SizedBox(height: 17),
-                    Row(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                          child: IconButton(
-                            onPressed: _regresar,
-                            icon: const Icon(Icons.arrow_back_ios),
-                            color: Colors.white,
-                          ),
-                        ),
-                      ],
-                    ),
-                    Image.asset(
-                      "assets/ave.png",
-                      width: 250,
-                      fit: BoxFit.cover,
-                    ),
+
                     const SizedBox(height: 10),
                     Expanded(
-                      child: FadeInUp(
-                        delay: const Duration(seconds: 1),
+                      child: SingleChildScrollView(
                         child: Container(
-                          decoration: const BoxDecoration(
-                              color: Color(0xFFF5EDED),
-                              borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(40),
-                                topRight: Radius.circular(40),
-                              )),
-                          child: SingleChildScrollView(
-                            child: Container(
-                              margin: const EdgeInsets.all(20.0),
-                              child: Form(
-                                key: _formKey,
-                                child: Column(
-                                  children: <Widget>[
-                                    const SizedBox(height: 30),
-                                    const Text(
-                                      "Inicia sesion para continuar",
-                                      style: TextStyle(
-                                        letterSpacing: 0.4,
-                                        fontSize: 18,
-                                        fontFamily: 'Montserrat',
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
-                                    const SizedBox(height: 30),
-                                    TextFormField(
-                                      controller: _nameController,
-                                      decoration: const InputDecoration(
-                                        hintText: 'E-mail',
-                                        prefixIcon: Icon(
-                                          Icons.person,
-                                          color: Colors.black,
-                                        ),
-                                      ),
-                                      validator: (value) {
-                                        if (value == null || value.isEmpty) {
-                                          return 'Por favor, ingresa tu e-mail';
-                                        }
-                                        return null;
-                                      },
-                                    ),
-                                    const SizedBox(height: 20),
-                                    TextFormField(
-                                      controller: _passwordController,
-                                      decoration: const InputDecoration(
-                                        hintText: 'Password',
-                                        prefixIcon: Icon(
-                                          Icons.lock,
-                                          color: Colors.black,
-                                        ),
-                                      ),
-                                      validator: (value) {
-                                        if (value == null || value.isEmpty) {
-                                          return 'Por favor, ingresa tu e-mail';
-                                        }
-                                        return null;
-                                      },
-                                      obscureText: true,
-                                    ),
-                                    const SizedBox(height: 20),
-                                    boton(),
-                                    const SizedBox(height: 20),
-                                    text(),
-                                    const SizedBox(height: 30),
-                                    createAccount()
-                                  ],
+                          margin: const EdgeInsets.all(20.0),
+                          child: Form(
+                            key: _formKey,
+                            child: Column(
+                              children: <Widget>[
+                                const SizedBox(height: 30),
+                                const Text(
+                                  "Inicia sesion para continuar",
+                                  style: TextStyle(
+                                    letterSpacing: 0.4,
+                                    fontSize: 18,
+                                    fontFamily: 'Montserrat',
+                                    color: Color.fromARGB(255, 0, 0, 0),
+                                    fontWeight: FontWeight.w600,
+                                  ),
                                 ),
-                              ),
+                                const SizedBox(height: 30),
+                                TextFormField(
+                                  controller: _nameController,
+                                  decoration: const InputDecoration(
+                                    hintText: 'E-mail',
+                                    hintStyle: TextStyle(
+                                        color: Color.fromARGB(255, 0, 0,
+                                            0)), // Color del texto de sugerencia
+                                  ),
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'Por favor, ingresa tu e-mail';
+                                    }
+                                    return null;
+                                  },
+                                ),
+                                const SizedBox(height: 20),
+                                TextFormField(
+                                  controller: _passwordController,
+                                  decoration: const InputDecoration(
+                                    hintText: 'Password',
+                                    hintStyle:
+                                        TextStyle(color: Colors.black), //
+                                  ),
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'Por favor, ingresa tu e-mail';
+                                    }
+                                    return null;
+                                  },
+                                  obscureText: true,
+                                ),
+                                const SizedBox(height: 20),
+                                boton(),
+                                const SizedBox(height: 10),
+                                createAccount()
+                              ],
                             ),
                           ),
                         ),
@@ -171,7 +140,7 @@ class _LoginState extends State<Login> {
     );
   }
 
-  Widget boton() => ElevatedButton(
+  Widget boton() => OutlinedButton(
         onPressed: () {
           if (_formKey.currentState?.validate() ?? false) {
             // El formulario es válido, puedes realizar acciones adicionales aquí
@@ -179,24 +148,26 @@ class _LoginState extends State<Login> {
             loginUSer();
           }
         },
-        style: ButtonStyle(
-          minimumSize: MaterialStateProperty.all(const Size(9900, 50)),
-          backgroundColor: MaterialStateProperty.all<Color>(Colors.black),
+        style: OutlinedButton.styleFrom(
+                foregroundColor: Color.fromARGB(255, 0, 0, 0))
+            .copyWith(
+          side: MaterialStateProperty.all(const BorderSide(
+            color: Color.fromARGB(255, 0, 0, 0), // color del borde
+            width: 1.0, // ancho del borde
+          )),
+          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(
+                  1.0), // Ajusta el radio según sea necesario
+            ),
+          ),
+          minimumSize: MaterialStateProperty.all(const Size(999, 40)),
           textStyle: MaterialStateProperty.all<TextStyle>(
             const TextStyle(
                 fontSize: 16, color: Color.fromARGB(255, 255, 255, 255)),
           ),
         ),
         child: const Text('Login'),
-      );
-
-  Widget text() => GestureDetector(
-        child: const Text("¿Olvidaste tú contraseña?",
-            style: TextStyle(color: Colors.redAccent),
-            textAlign: TextAlign.end),
-        onTap: () {
-          // goingHome();
-        },
       );
 
   Widget createAccount() => OutlinedButton(
@@ -221,14 +192,22 @@ class _LoginState extends State<Login> {
             ),
           );
         },
-        style: OutlinedButton.styleFrom(foregroundColor: Colors.black).copyWith(
+        style: OutlinedButton.styleFrom(
+                foregroundColor: Color.fromARGB(255, 0, 0, 0))
+            .copyWith(
           side: MaterialStateProperty.all(const BorderSide(
-            color: Colors.grey, // color del borde
+            color: Color.fromARGB(255, 0, 0, 0), // color del borde
             width: 1.0, // ancho del borde
           )),
+            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+      RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(1.0), // Ajusta el radio según sea necesario
+      ),
+    ),
           minimumSize: MaterialStateProperty.all(const Size(999, 40)),
           textStyle: MaterialStateProperty.all<TextStyle>(
-            const TextStyle(fontSize: 16, color: Colors.black),
+            const TextStyle(
+                fontSize: 16, color: Color.fromARGB(255, 0, 0, 0)),
           ),
         ),
         child: const Text('Crear Cuenta'),

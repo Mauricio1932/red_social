@@ -20,10 +20,10 @@ abstract class PostDataSource {
 class ApiPostDataSourceImpl implements PostDataSource {
   Dio dio = Dio();
   String ip = '';
-  final urlGetPost = "http://localhost:3000/api/post/viewAll";
-  final urlGetComentarios = "http://localhost:3000/api/comment/view?post_id=";
-  final postNewUrl = "http://localhost:3000/api/post/createPost?user_id=";
-  final newCommentUrl = "http://localhost:3000/api/comment/create?post_id=";
+  final urlGetPost = "http://192.168.1.67:3000/api/post/viewAll";
+  final urlGetComentarios = "http://192.168.1.67:3000/api/comment/view?post_id=";
+  final postNewUrl = "http://192.168.1.67:3000/api/post/createPost?user_id=";
+  final newCommentUrl = "http://192.168.1.67:3000/api/comment/create?post_id=";
 
   @override
   Future<List<Post>> getAllPost() async {
@@ -72,15 +72,13 @@ class ApiPostDataSourceImpl implements PostDataSource {
 
       if (response.statusCode == 200) {
         // Reemplaza 'NewPost.fromJson' con la lógica real para convertir la respuesta a una lista de NewPost
-        List<NewPost> newPosts = response.data
-            .map<NewPost>((post) => NewPostModel.fromJson(post))
-            .toList();
+        List<NewPost> newPosts = response.data.map<NewPost>((post) => NewPostModel.fromJson(post)).toList();
         return newPosts;
       } else {
-        throw Exception('Failed to upload image');
+        throw Exception('Failed to upload image en dartasource');
       }
     } catch (e) {
-      throw Exception('Failed to upload image');
+      throw Exception('Failed to upload image $e');
     }
   }
 
